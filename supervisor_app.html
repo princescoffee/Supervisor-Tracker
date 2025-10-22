@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Princes' Coffee - Supervisor Tracker</title>
+    <style>
+        :root { --dark-green: #546141; --light-gray: #E2DEDA; --white: #FFFFFF; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--light-gray); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .container { background: var(--white); border-radius: 10px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); max-width: 600px; width: 100%; }
+        .logo { display: block; margin: 0 auto 25px auto; max-width: 250px; height: auto; }
+        h1, h2 { color: var(--dark-green); margin-bottom: 20px; text-align: center; }
+        .login-form, .dashboard, .clock-section, .activity-form { margin-bottom: 30px; }
+        input, select, textarea, button { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; }
+        button { background-color: var(--dark-green); color: white; border: none; cursor: pointer; transition: background-color 0.3s; font-weight: bold; }
+        button:disabled { background-color: #cccccc; cursor: not-allowed; }
+        .status { padding: 10px; border-radius: 5px; margin-bottom: 15px; text-align: center; font-weight: bold; }
+        .clocked-in { background-color: #e8f5e9; color: #2e7d32; }
+        .clocked-out { background-color: #ffebee; color: #c62828; }
+        .location { background-color: #f1f1f1; padding: 10px; border-radius: 5px; margin-bottom: 15px; font-size: 0.9em; color: #555; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Login Section -->
+        <div id="loginSection" class="login-form">
+            <img src="C:\Users\Administrator\OneDrive\سطح المكتب\Supervisor app\logo1.jpeg" alt="Princes Coffee Logo" class="logo">
+            <h1>Supervisor Tracker</h1>
+            <input type="text" id="username" placeholder="Username" required> <input type="password" id="password" placeholder="Password" required>
+            <button onclick="login()">Login</button> <p id="loginError" style="color: red; display: none;">Invalid credentials.</p>
+        </div>
+        <!-- Dashboard -->
+        <div id="dashboard" class="dashboard" style="display: none;">
+            <img src="C:\Users\Administrator\OneDrive\سطح المكتب\Supervisor app\logo1.jpeg" alt="Princes Coffee Logo" class="logo">
+            <h2>Welcome, <span id="userName"></span></h2>
+            <div class="clock-section">
+                <div id="clockStatus" class="status clocked-out">Status: Clocked Out</div> <div id="locationInfo" class="location">Location: Acquiring...</div>
+                <select id="branchSelect"><option value="">Select Branch...</option></select> <button id="clockButton" onclick="toggleClock()">Clock In</button>
+            </div>
+            <div class="activity-form">
+                <h2>Log Activity</h2> <textarea id="activityDescription" placeholder="Describe what you did during this visit..." rows="4"></textarea>
+                <button id="activityButton" onclick="logActivity()">Save Activity Log</button>
+            </div>
+            <button onclick="logout()" style="background-color: #757575; margin-top: 30px;">Logout</button>
+        </div>
+    </div>
+    <script>
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw83_NP5rBIKap__THnRl8Keq64aNQ6JG16AkFyNBl5MvTJmH0rhdpgnRg9MVI4APi_/exec'; // !!! PASTE YOUR NEW URL FROM STEP 1 !!!
+        const users = { "sameh": "SAM123", "manager1": "pass123", "manager2": "pass123", "manager3": "pass123", "manager4": "pass123", "manager5": "pass123", "manager6": "pass123", "manager7": "pass123", "manager8": "pass123", "manager9": "pass123", "manager10": "pass123", "manager11": "pass123", "manager12": "pass123", "manager13": "pass123", "manager14": "pass123", "manager15": "pass123" };
+        const branches = [ { code: 'JD-12', name: 'Rabua' }, { code: 'JD-18', name: 'Hamdaniya' }, { code: 'JD-36', name: 'Cobri Al Mouraba' }, { code: 'JD-37', name: 'Corniche C6' }, { code: 'JD-44', name: 'salihia' }, { code: 'JD-19', name: 'Halaqa' }, { code: 'JD-23', name: 'SASCO Madinah' }, { code: 'JD-48', name: 'khulays' }, { code: 'JD-02', name: 'Raheli - Makkah' }, { code: 'JD-04', name: 'Jamaa' }, { code: 'JD-11', name: 'Quresh' }, { code: 'JD-25', name: 'Daham Jed' }, { code: 'JD-30', name: 'Tahliya Mall' }, { code: 'MK-16', name: 'Bahara1' }, { code: 'MK-40', name: 'Bahra 2' }, { code: 'MK-47', 'name': 'Hadda' }, { code: 'JD-03', name: 'Sulemania' }, { code: 'MK-06', name: 'Awali' }, { code: 'MK-13', name: 'Showkiya' }, { code: 'MK-43', name: 'Al Husainiah' }, { code: 'MK-41', name: 'Hospital abdullah' }, { code: 'MK-28', name: 'Arishi Taif' }, { code: 'MK-01', name: 'Al Bouhayrat' }, { code: 'MK-39', name: 'Al omra' }, { code: 'MK-17', name: 'Koudai' }, { code: 'MK-49', name: 'heraa' }, { code: 'MK-20', name: 'Nawariya' }, { code: 'MK-15', name: 'Jamoom' }, { code: 'MK-05', name: 'Zaidi' }, { code: 'MK-32', name: 'Al Nuzha' }, { code: 'MK-08', name: 'Um Al Jood' }, { code: 'MK-14', name: 'Jorana' }, { code: 'MK-21', name: 'Al Sharaya' }, { code: 'MK-22', name: 'Askar' }, { code: 'MK-45', name: 'alsharayie alqadisia' }, { code: 'MK-07', name: 'Kakia' }, { code: 'MK-46', name: 'al Rusayfah' }, { code: 'TF-31', name: 'Wisam - Taif' }, { code: 'TF-35', name: 'Kotbiya AL Sharkiya-Taif' }, { code: 'TF-33', name: 'Al Jeddeyah' }, { code: 'TF-38', name: 'Al Sayl' }, { code: 'TF-42', name: 'shehar' }];
+        let currentUser = null, clockedIn = false, currentLocation = null;
+        window.onload = function() { populateBranches(); const savedUser = localStorage.getItem('currentUser'); if (savedUser) { currentUser = savedUser; showDashboard(); startTrackingLocation(); } };
+        function login() { const username = document.getElementById('username').value.toLowerCase(); const password = document.getElementById('password').value; if (users[username] && users[username] === password) { currentUser = username; localStorage.setItem('currentUser', username); showDashboard(); startTrackingLocation(); } else { document.getElementById('loginError').style.display = 'block'; } }
+        function logout() { localStorage.clear(); window.location.reload(); }
+        function showDashboard() { document.getElementById('loginSection').style.display = 'none'; document.getElementById('dashboard').style.display = 'block'; document.getElementById('userName').textContent = currentUser; clockedIn = (localStorage.getItem(`${currentUser}_clockStatus`) === 'in'); updateClockUI(); }
+        function toggleClock() { const button = document.getElementById('clockButton'); button.disabled = true; button.textContent = 'Processing...'; if (!clockedIn) { const branchCode = document.getElementById('branchSelect').value; if (!branchCode) { alert('Please select a branch.'); button.disabled = false; button.textContent = 'Clock In'; return; } if (!currentLocation) { alert('Location not available. Please wait.'); button.disabled = false; button.textContent = 'Clock In'; return; } sendDataToGoogleSheet({ username: currentUser, eventType: 'Clock In', branch: getBranchFullNameByCode(branchCode), latitude: currentLocation.latitude, longitude: currentLocation.longitude }); localStorage.setItem(`${currentUser}_clockStatus`, 'in'); localStorage.setItem(`${currentUser}_clockInTime`, new Date().toISOString()); localStorage.setItem(`${currentUser}_clockInBranchCode`, branchCode); clockedIn = true; } else { const clockOutTime = new Date(); const clockInTime = new Date(localStorage.getItem(`${currentUser}_clockInTime`)); const branchCode = localStorage.getItem(`${currentUser}_clockInBranchCode`); const duration = Math.round((clockOutTime - clockInTime) / 60000); sendDataToGoogleSheet({ username: currentUser, eventType: 'Clock Out', branch: getBranchFullNameByCode(branchCode), latitude: currentLocation ? currentLocation.latitude : 'N/A', longitude: currentLocation ? currentLocation.longitude : 'N/A', duration: duration }); localStorage.removeItem(`${currentUser}_clockStatus`); localStorage.removeItem(`${currentUser}_clockInTime`); localStorage.removeItem(`${currentUser}_clockInBranchCode`); clockedIn = false; } updateClockUI(); button.disabled = false; }
+        function logActivity() { if (!clockedIn) { alert('You must be clocked in to log an activity.'); return; } const description = document.getElementById('activityDescription').value; if (!description.trim()) { alert('Please enter an activity description.'); return; } const button = document.getElementById('activityButton'); button.disabled = true; button.textContent = "Saving..."; const branchCode = localStorage.getItem(`${currentUser}_clockInBranchCode`); sendDataToGoogleSheet({ username: currentUser, eventType: 'Activity Log', branch: getBranchFullNameByCode(branchCode), latitude: currentLocation ? currentLocation.latitude : 'N/A', longitude: currentLocation ? currentLocation.longitude : 'N/A', description: description }); document.getElementById('activityDescription').value = ''; alert('Activity logged successfully!'); button.disabled = false; button.textContent = "Save Activity Log"; }
+        function updateClockUI() { const statusEl = document.getElementById('clockStatus'), buttonEl = document.getElementById('clockButton'), branchSelect = document.getElementById('branchSelect'); if (clockedIn) { const branchCode = localStorage.getItem(`${currentUser}_clockInBranchCode`); statusEl.textContent = `Status: Clocked In at ${getBranchNameByCode(branchCode)}`; statusEl.className = 'status clocked-in'; buttonEl.textContent = 'Clock Out'; branchSelect.value = branchCode; branchSelect.disabled = true; } else { statusEl.textContent = 'Status: Clocked Out'; statusEl.className = 'status clocked-out'; buttonEl.textContent = 'Clock In'; branchSelect.value = ""; branchSelect.disabled = false; } }
+        function populateBranches() { const branchSelect = document.getElementById('branchSelect'); branches.sort((a, b) => a.name.localeCompare(b.name)); branches.forEach(branch => { const option = document.createElement('option'); option.value = branch.code; option.textContent = `${branch.code} - ${branch.name}`; branchSelect.appendChild(option); }); }
+        function getBranchNameByCode(code) { const branch = branches.find(b => b.code === code); return branch ? branch.name : 'Unknown Branch'; }
+        function getBranchFullNameByCode(code) { const branch = branches.find(b => b.code === code); return branch ? `${branch.code} - ${branch.name}` : 'Unknown Branch'; }
+        function startTrackingLocation() { navigator.geolocation.watchPosition( position => { currentLocation = { latitude: position.coords.latitude, longitude: position.coords.longitude }; document.getElementById('locationInfo').textContent = `Location: ${currentLocation.latitude.toFixed(5)}, ${currentLocation.longitude.toFixed(5)}`; }, () => { document.getElementById('locationInfo').textContent = 'Error: Please enable location services.'; }, { enableHighAccuracy: true }); }
+        
+        // --- FINALIZED "FIRE AND FORGET" FUNCTION ---
+        function sendDataToGoogleSheet(data) {
+            if (!SCRIPT_URL || SCRIPT_URL.includes('YOUR_NEW_WEB_APP_URL_HERE')) {
+                alert("CRITICAL ERROR: URL not configured."); return;
+            }
+            // This 'no-cors' mode is the correct and final solution to prevent the "Failed to fetch" error.
+            // It sends the data without waiting for a response, which is what we need.
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors', 
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            }).catch(error => console.error('This error is expected and can be ignored:', error));
+        }
+    </script>
+</body>
+</html>
