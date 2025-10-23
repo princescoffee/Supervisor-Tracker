@@ -20,19 +20,19 @@
         .clocked-out { background-color: #ffebee; color: #c62828; }
         .location { background-color: #f1f1f1; padding: 10px; border-radius: 5px; margin-bottom: 15px; font-size: 0.9em; color: #555; }
     </style>
-</head>
+
 <body>
     <div class="container">
         <!-- Login Section -->
         <div id="loginSection" class="login-form">
-            <img src="logo1.jpeg" alt="Princes Coffee Logo" class="logo">
+            <img src="C:\Users\Administrator\OneDrive\سطح المكتب\Supervisor app\logo1.jpeg" alt="Princes Coffee Logo" class="logo">
             <h1>Supervisor Tracker</h1>
             <input type="text" id="username" placeholder="Username" required> <input type="password" id="password" placeholder="Password" required>
             <button onclick="login()">Login</button> <p id="loginError" style="color: red; display: none;">Invalid credentials.</p>
         </div>
         <!-- Dashboard -->
         <div id="dashboard" class="dashboard" style="display: none;">
-            <img src="logo1.jpeg" alt="Princes Coffee Logo" class="logo">
+            <img src="C:\Users\Administrator\OneDrive\سطح المكتب\Supervisor app\logo1.jpeg" alt="Princes Coffee Logo" class="logo">
             <h2>Welcome, <span id="userName"></span></h2>
             <div class="clock-section">
                 <div id="clockStatus" class="status clocked-out">Status: Clocked Out</div> <div id="locationInfo" class="location">Location: Acquiring...</div>
@@ -48,7 +48,7 @@
     <script>
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwj2jUsvZqLg0a_7OmzE9RvyMMqHWDZT-fGiWbNAeRn_PxwefHkr_T1kzoQdysLOPy2/exec'; // !!! PASTE YOUR NEW URL FROM STEP 1 !!!
         const users = { "sameh": "sam123", "farid": "far123", "emdad": "emd123", "bilal": "bil123", "abubakr": "abu123", "manager5": "pass123", "manager6": "pass123", "manager7": "pass123", "manager8": "pass123", "manager9": "pass123", "manager10": "pass123", "manager11": "pass123", "manager12": "pass123", "manager13": "pass123", "manager14": "pass123", "manager15": "pass123" };
-        const branches = [ { code: 'JD-12', name: 'Rabua' }, { code: 'JD-18', name: 'Hamdaniya' }, { code: 'JD-36', name: 'Cobri Al Mouraba' }, { code: 'JD-37', name: 'Corniche C6' }, { code: 'JD-44', name: 'salihia' }, { code: 'JD-19', name: 'Halaqa' }, { code: 'JD-23', name: 'SASCO Madinah' }, { code: 'JD-48', name: 'khulays' }, { code: 'JD-02', name: 'Raheli - Makkah' }, { code: 'JD-04', name: 'Jamaa' }, { code: 'JD-11', name: 'Quresh' }, { code: 'JD-25', name: 'Daham Jed' }, { code: 'JD-30', name: 'Tahliya Mall' }, { code: 'MK-16', name: 'Bahara1' }, { code: 'MK-40', name: 'Bahra 2' }, { code: 'MK-47', 'name': 'Hadda' }, { code: 'JD-03', name: 'Sulemania' }, { code: 'MK-06', name: 'Awali' }, { code: 'MK-13', name: 'Showkiya' }, { code: 'MK-43', name: 'Al Husainiah' }, { code: 'MK-41', name: 'Hospital abdullah' }, { code: 'MK-28', name: 'Arishi Taif' }, { code: 'MK-01', name: 'Al Bouhayrat' }, { code: 'MK-39', name: 'Al omra' }, { code: 'MK-17', name: 'Koudai' }, { code: 'MK-49', name: 'heraa' }, { code: 'MK-20', name: 'Nawariya' }, { code: 'MK-15', name: 'Jamoom' }, { code: 'MK-05', name: 'Zaidi' }, { code: 'MK-32', name: 'Al Nuzha' }, { code: 'MK-08', name: 'Um Al Jood' }, { code: 'MK-14', name: 'Jorana' }, { code: 'MK-21', name: 'Al Sharaya' }, { code: 'MK-22', name: 'Askar' }, { code: 'MK-45', name: 'alsharayie alqadisia' }, { code: 'MK-07', name: 'Kakia' }, { code: 'MK-46', name: 'al Rusayfah' }, { code: 'TF-31', name: 'Wisam - Taif' }, { code: 'TF-35', name: 'Kotbiya AL Sharkiya-Taif' }, { code: 'TF-33', name: 'Al Jeddeyah' }, { code: 'TF-38', name: 'Al Sayl' }, { code: 'TF-42', name: 'shehar' },{ code: 'JD-00', name: 'Jeddah Office' },{ code: 'MK-00', name: 'Makkah Office' },{ code: 'MK-JD', name: 'Accomodation' }];
+        const branches = [ { code: 'JD-12', name: 'Rabua' }, { code: 'JD-18', name: 'Hamdaniya' }, { code: 'JD-36', name: 'Cobri Al Mouraba' }, { code: 'JD-37', name: 'Corniche C6' }, { code: 'JD-44', name: 'salihia' }, { code: 'JD-19', name: 'Halaqa' }, { code: 'JD-23', name: 'SASCO Madinah' }, { code: 'JD-48', name: 'khulays' }, { code: 'JD-02', name: 'Raheli - Makkah' }, { code: 'JD-04', name: 'Jamaa' }, { code: 'JD-11', name: 'Quresh' }, { code: 'JD-25', name: 'Daham Jed' }, { code: 'JD-30', name: 'Tahliya Mall' }, { code: 'MK-16', name: 'Bahara1' }, { code: 'MK-40', name: 'Bahra 2' }, { code: 'MK-47', 'name': 'Hadda' }, { code: 'JD-03', name: 'Sulemania' }, { code: 'MK-06', name: 'Awali' }, { code: 'MK-13', name: 'Showkiya' }, { code: 'MK-43', name: 'Al Husainiah' }, { code: 'MK-41', name: 'Hospital abdullah' }, { code: 'MK-28', name: 'Arishi Taif' }, { code: 'MK-01', name: 'Al Bouhayrat' }, { code: 'MK-39', name: 'Al omra' }, { code: 'MK-17', name: 'Koudai' }, { code: 'MK-49', name: 'heraa' }, { code: 'MK-20', name: 'Nawariya' }, { code: 'MK-15', name: 'Jamoom' }, { code: 'MK-05', name: 'Zaidi' }, { code: 'MK-32', name: 'Al Nuzha' }, { code: 'MK-08', name: 'Um Al Jood' }, { code: 'MK-14', name: 'Jorana' }, { code: 'MK-21', name: 'Al Sharaya' }, { code: 'MK-22', name: 'Askar' }, { code: 'MK-45', name: 'alsharayie alqadisia' }, { code: 'MK-07', name: 'Kakia' }, { code: 'MK-46', name: 'al Rusayfah' }, { code: 'TF-31', name: 'Wisam - Taif' }, { code: 'TF-35', name: 'Kotbiya AL Sharkiya-Taif' }, { code: 'TF-33', name: 'Al Jeddeyah' }, { code: 'TF-38', name: 'Al Sayl' }, { code: 'TF-42', name: 'shehar' }];
         let currentUser = null, clockedIn = false, currentLocation = null;
         window.onload = function() { populateBranches(); const savedUser = localStorage.getItem('currentUser'); if (savedUser) { currentUser = savedUser; showDashboard(); startTrackingLocation(); } };
         function login() { const username = document.getElementById('username').value.toLowerCase(); const password = document.getElementById('password').value; if (users[username] && users[username] === password) { currentUser = username; localStorage.setItem('currentUser', username); showDashboard(); startTrackingLocation(); } else { document.getElementById('loginError').style.display = 'block'; } }
@@ -64,26 +64,18 @@
         
         // --- FINALIZED "FIRE AND FORGET" FUNCTION ---
         function sendDataToGoogleSheet(data) {
-        if (!SCRIPT_URL || SCRIPT_URL.includes('YOUR_URL_HERE')) {
-        alert("CRITICAL ERROR: URL not configured."); return;
-    }
-    // This is the correct method for sending data from the tracker app.
-    fetch(SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors', 
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-    }).catch(error => console.error('Data sent (error is expected with no-cors):', error));
-}
+            if (!SCRIPT_URL || SCRIPT_URL.includes('YOUR_NEW_WEB_APP_URL_HERE')) {
+                alert("CRITICAL ERROR: URL not configured."); return;
+            }
+            // This 'no-cors' mode is the correct and final solution to prevent the "Failed to fetch" error.
+            // It sends the data without waiting for a response, which is what we need.
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors', 
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            }).catch(error => console.error('This error is expected and can be ignored:', error));
+        }
+    </script>
 </body>
-
 </html>
-
-
-
-
-
-
-
-
-
