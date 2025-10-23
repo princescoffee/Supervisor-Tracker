@@ -64,22 +64,21 @@
         
         // --- FINALIZED "FIRE AND FORGET" FUNCTION ---
         function sendDataToGoogleSheet(data) {
-            if (!SCRIPT_URL || SCRIPT_URL.includes('YOUR_NEW_WEB_APP_URL_HERE')) {
-                alert("CRITICAL ERROR: URL not configured."); return;
-            }
-            // This 'no-cors' mode is the correct and final solution to prevent the "Failed to fetch" error.
-            // It sends the data without waiting for a response, which is what we need.
-            fetch(SCRIPT_URL, {
-                method: 'POST',
-                mode: 'no-cors', 
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            }).catch(error => console.error('This error is expected and can be ignored:', error));
-        }
-    </script>
+        if (!SCRIPT_URL || SCRIPT_URL.includes('YOUR_URL_HERE')) {
+        alert("CRITICAL ERROR: URL not configured."); return;
+    }
+    // This is the correct method for sending data from the tracker app.
+    fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors', 
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    }).catch(error => console.error('Data sent (error is expected with no-cors):', error));
+}
 </body>
 
 </html>
+
 
 
 
